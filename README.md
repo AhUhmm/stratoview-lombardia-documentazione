@@ -3,7 +3,7 @@
 ## Quick Access
 
 - [📱 Interactive Prototype](https://ahuhmm.github.io/stratoview-lombardia-documentazione/mockup/interactive-prototype.html)
-- [🏗️ Complete Architecture](https://ahuhmm.github.io/stratoview-lombardia-documentazione/architecture/complete-architecture.md)
+- [🏗️ Complete Architecture](https://ahuhmm.github.io/stratoview-lombardia-documentazione/blob/main/architecture/complete-architecture.md)
 - [🏷️ Taxonomy Store](https://github.com/AhUhmm/stratoview-lombardia-documentazione/blob/main/taxonomy/taxonomy-store.json)
 
 ## Implementation Status
