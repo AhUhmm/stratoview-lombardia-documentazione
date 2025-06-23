@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stratoview Lombardia - Documentation Hub</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .header {
+        text-align: center;
+        color: white;
+        margin-bottom: 60px;
+      }
+
+      .header h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .documentation-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .doc-section {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .doc-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      }
+
+      .section-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: white;
+        margin-bottom: 20px;
+      }
+
+      .architecture {
+        background: #4a90e2;
+      }
+      .mockup {
+        background: #5cb85c;
+      }
+      .taxonomy {
+        background: #ff8c42;
+      }
+      .implementation {
+        background: #b366d9;
+      }
+
+      .doc-section h2 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .doc-section p {
+        color: #666;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+      }
+
+      .doc-links {
+        list-style: none;
+      }
+
+      .doc-links li {
+        margin-bottom: 8px;
+      }
+
+      .doc-links a {
+        color: #4a90e2;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+      }
+
+      .doc-links a:hover {
+        background: #f0f8ff;
+        transform: translateX(5px);
+      }
+
+      .doc-links a::before {
+        content: "→";
+        margin-right: 8px;
+        transition: transform 0.2s ease;
+      }
+
+      .doc-links a:hover::before {
+        transform: translateX(3px);
+      }
+
+      .version-info {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .version-badge {
+        background: #28a745;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 16px;
+      }
+
+      .footer {
+        text-align: center;
+        color: white;
+        margin-top: 60px;
+        opacity: 0.8;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 2rem;
+        }
+        .documentation-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .doc-section {
+          padding: 20px;
+        }
+        .container {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Stratoview Lombardia</h1>
+        <p>
+          Complete documentation hub for strategic intelligence platform
+          architecture, interactive prototypes, and implementation guidelines
+        </p>
+      </header>
+
+      <div class="documentation-grid">
+        <!-- Architecture Documentation -->
+        <section class="doc-section">
+          <div class="section-icon architecture">📐</div>
+          <h2>System Architecture</h2>
+          <p>
+            Complete technical architecture documentation including master
+            diagrams, entity relationships, and integrated user experience
+            flows.
+          </p>
+          <ul class="doc-links">
+            <li>
+              <a href="architecture/complete-architecture.html"
+                >Complete Architecture Documentation</a
+              >
+            </li>
+            <li>
+              <a href="architecture/user-roles-documentation.html"
+                >User Roles & Permissions</a
+              >
+            </li>
+          </ul>
+        </section>
+
+        <!-- Interactive Mockup -->
+        <section class="doc-section">
+          <div class="section-icon mockup">🎨</div>
+          <h2>Interactive Prototype</h2>
+          <p>
+            Fully functional medium-fidelity prototype demonstrating core user
+            flows, dual content discovery, and enhanced project management.
+          </p>
+          <ul class="doc-links">
+            <li>
+              <a href="mockup/interactive-prototype.html" target="_blank"
+                >Launch Interactive Prototype</a
+              >
+            </li>
+            <li>
+              <a href="mockup/prototype-guide.html"
+                >Prototype Navigation Guide</a
+              >
+            </li>
+          </ul>
+        </section>
+
+        <!-- Taxonomy & Data Models -->
+        <section class="doc-section">
+          <div class="section-icon taxonomy">🏷️</div>
+          <h2>Taxonomy & Data Models</h2>
+          <p>
+            Complete taxonomy store, metadata schemas, and database
+            implementations for content classification and management.
+          </p>
+          <ul class="doc-links">
+            <li>
+              <a href="taxonomy/taxonomy-store.json"
+                >Complete Taxonomy Store (JSON)</a
+              >
+            </li>
+            <li>
+              <a href="taxonomy/mongodb-schema.js"
+                >MongoDB Schema Implementation</a
+              >
+            </li>
+            <li>
+              <a href="taxonomy/django-models.py"
+                >Django Models Implementation</a
+              >
+            </li>
+            <li>
+              <a href="taxonomy/validation-requirements.html"
+                >Form Validation Requirements</a
+              >
+            </li>
+          </ul>
+        </section>
+
+        <!-- Implementation Guidelines -->
+        <section class="doc-section">
+          <div class="section-icon implementation">⚙️</div>
+          <h2>Implementation Guidelines</h2>
+          <p>
+            Technical specifications, API endpoints, component architecture, and
+            deployment strategies for development teams.
+          </p>
+          <ul class="doc-links">
+            <li>
+              <a href="implementation/component-architecture.html"
+                >Component Architecture</a
+              >
+            </li>
+            <li>
+              <a href="implementation/api-specifications.html"
+                >API Specifications</a
+              >
+            </li>
+            <li>
+              <a href="implementation/deployment-guide.html"
+                >Deployment Guidelines</a
+              >
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Version Information -->
+      <div class="version-info">
+        <div class="version-badge">v5.0 - Current</div>
+        <h3>Documentation Status</h3>
+        <p><strong>Last Updated:</strong> June 23, 2025</p>
+        <p>
+          <strong>Architecture Version:</strong> v5.0 Complete with Integrated
+          User Experience Flow
+        </p>
+        <p>
+          <strong>Prototype Status:</strong> Phase 3 Complete - Content Editor
+          with CSS Fixes
+        </p>
+        <p>
+          <strong>Implementation Ready:</strong> Taxonomy Store, Database
+          Schemas, Component Architecture
+        </p>
+      </div>
+
+      <footer class="footer">
+        <p>
+          Stratoview Whitelabel Lombardia - Strategic Intelligence Platform
+          Documentation
+        </p>
+        <p>Repository: stratoview-lombardia-documentazione</p>
+      </footer>
+    </div>
+
+    <script>
+      // Add smooth scrolling and interactive enhancements
+      document.addEventListener("DOMContentLoaded", function () {
+        // Add click tracking for documentation links
+        const docLinks = document.querySelectorAll(".doc-links a");
+        docLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            // Check if link exists, otherwise show coming soon message
+            if (this.href.includes("#") || !this.href.includes(".html")) {
+              e.preventDefault();
+              alert(
+                "This section is being prepared and will be available soon."
+              );
+            }
+          });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        }, observerOptions);
+
+        document.querySelectorAll(".doc-section").forEach((section) => {
+          section.style.opacity = "0";
+          section.style.transform = "translateY(20px)";
+          section.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+          observer.observe(section);
+        });
+      });
+    </script>
+  </body>
+</html>
