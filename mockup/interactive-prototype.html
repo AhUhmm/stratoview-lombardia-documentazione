@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stratoview - Core Flow Mockup</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+            background: #f5f5f5; 
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Screen Container - Full viewport */
+        .screen { 
+            display: none; 
+            height: 100vh; 
+            width: 100vw; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+        }
+        .screen.active { display: flex; }
+        
+        /* Common Header */
+        .header { 
+            background: #4a90e2; 
+            color: white; 
+            height: 60px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 20px; 
+            flex-shrink: 0;
+        }
+        .logo { 
+            font-weight: 600; 
+            font-size: 18px; 
+        }
+        .user-menu { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            background: rgba(255,255,255,0.2); 
+            padding: 8px 12px; 
+            border-radius: 4px;
+        }
+        
+        /* Icons - Flat filled silhouettes only */
+        .icon { 
+            width: 48px; 
+            height: 48px; 
+            background: #dee2e6; 
+            border-radius: 4px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+            color: #6c757d;
+        }
+        .icon-small { 
+            width: 24px; 
+            height: 24px; 
+            background: #6c757d; 
+            border-radius: 2px; 
+            display: inline-block;
+        }
+        
+        /* Login Screen */
+        .login-screen { 
+            background: #4a90e2; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 100vw;
+            height: 100vh;
+        }
+        .login-card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            width: 100%; 
+            max-width: 400px; 
+            margin: 20px;
+        }
+        .login-card h1 { 
+            color: #333; 
+            margin-bottom: 8px; 
+            font-size: 24px;
+        }
+        .login-card p { 
+            color: #666; 
+            margin-bottom: 24px; 
+        }
+        .form-group { 
+            margin-bottom: 16px; 
+        }
+        .form-group label { 
+            display: block; 
+            margin-bottom: 4px; 
+            color: #333; 
+            font-weight: 500;
+        }
+        .form-group input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 14px;
+        }
+        .btn-primary { 
+            background: #4a90e2; 
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            font-weight: 500; 
+            width: 100%;
+        }
+        .btn-primary:hover { background: #357abd; }
+        
+        /* Home Dashboard */
+        .home-screen { 
+            flex-direction: column; 
+            width: 100vw;
+            height: 100vh;
+        }
+        .home-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+        .home-content h1 { 
+            color: #333; 
+            font-size: 28px; 
+            margin-bottom: 12px;
+        }
+        .home-content p { 
+            color: #666; 
+            font-size: 16px; 
+            margin-bottom: 32px; 
+            max-width: 600px;
+            text-align: center;
+        }
+        .action-cards { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+            max-width: 900px; 
+            width: 100%;
+        }
+        .action-card { 
+            background: white; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            padding: 24px; 
+            text-align: center; 
+            cursor: pointer; 
+        }
+        .action-card:hover { 
+            background: #f8f9fa; 
+        }
+        .action-card h3 { 
+            color: #333; 
+            margin: 16px 0 8px 0; 
+        }
+        .action-card p { 
+            color: #666; 
+            font-size: 14px; 
+            margin: 0;
+        }
+        
+        /* Projects List */
+        .projects-screen { 
+            flex-direction: column; 
+            width: 100vw;
+            height: 100vh;
+        }
+        .projects-header { 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: white; 
+            border-bottom: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+        .projects-header h1 { 
+            color: #333; 
+            font-size: 20px;
+        }
+        .btn-secondary { 
+            background: #6c757d; 
+            color: white; 
+            border: none; 
+            padding: 8px 16px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 14px;
+        }
+        .btn-secondary:hover { background: #5a6268; }
+        .projects-content { 
+            flex: 1; 
+            padding: 20px; 
+            overflow-y: auto;
+        }
+        .projects-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 16px;
+        }
+        .project-card { 
+            background: white; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            padding: 20px; 
+            cursor: pointer; 
+        }
+        .project-card:hover { 
+            background: #f8f9fa; 
+        }
+        .project-card h3 { 
+            color: #333; 
+            margin-bottom: 8px; 
+            font-size: 16px;
+        }
+        .project-card p { 
+            color: #666; 
+            margin-bottom: 12px; 
+            font-size: 14px;
+        }
+        .project-meta { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 12px; 
+            color: #999;
+        }
+        .new-project-card { 
+            border: 2px dashed #ddd; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 140px; 
+            background: #fafafa;
+        }
+        .new-project-card h3 { 
+            color: #666; 
+            margin: 12px 0 4px 0;
+        }
+        .new-project-card p { 
+            color: #999; 
+            font-size: 14px;
+        }
+        
+        /* Project Container */
+        .project-container-screen { 
+            flex-direction: column; 
+            width: 100vw;
+            height: 100vh;
+        }
+        .project-toolbar { 
+            background: white; 
+            padding: 16px 20px; 
+            border-bottom: 1px solid #ddd; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .project-info h2 { 
+            color: #333; 
+            font-size: 18px; 
+            margin: 0;
+        }
+        .project-info p { 
+            color: #666; 
+            font-size: 14px; 
+            margin: 4px 0 0 0;
+        }
+        .layout-controls { 
+            display: flex; 
+            gap: 4px;
+        }
+        .layout-btn { 
+            background: #f8f9fa; 
+            border: 1px solid #ddd; 
+            padding: 8px 12px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 14px;
+        }
+        .layout-btn.active { 
+            background: #4a90e2; 
+            color: white; 
+            border-color: #4a90e2;
+        }
+        .layout-btn:hover:not(.active) { 
+            background: #e9ecef; 
+        }
+        .project-workspace { 
+            flex: 1; 
+            padding: 40px 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            overflow-y: auto;
+        }
+        .empty-state { 
+            text-align: center; 
+            max-width: 500px;
+        }
+        .empty-state .icon { 
+            width: 80px; 
+            height: 80px; 
+            background: #e9ecef; 
+            margin: 0 auto 20px auto; 
+            font-size: 40px;
+        }
+        .empty-state h2 { 
+            color: #333; 
+            margin-bottom: 12px; 
+            font-size: 20px;
+        }
+        .empty-state p { 
+            color: #666; 
+            margin-bottom: 24px; 
+            line-height: 1.5;
+        }
+        
+        /* Placeholder Screens */
+        .placeholder-content { 
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 40px 20px;
+        }
+        .placeholder-box { 
+            background: white; 
+            border: 2px dashed #ddd; 
+            border-radius: 8px; 
+            padding: 40px; 
+            text-align: center; 
+            width: 100%; 
+            max-width: 500px;
+        }
+        .placeholder-box .icon { 
+            width: 64px; 
+            height: 64px; 
+            margin: 0 auto 16px auto; 
+            font-size: 32px;
+        }
+        .placeholder-box h3 { 
+            color: #666; 
+            margin-bottom: 8px;
+        }
+        .placeholder-box p { 
+            color: #999; 
+            font-size: 14px;
+        }
+        
+        /* Navigation */
+        .nav-buttons { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            display: flex; 
+            gap: 8px; 
+            z-index: 1000;
+        }
+        .nav-btn { 
+            background: #333; 
+            color: white; 
+            border: none; 
+            padding: 10px 14px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 12px;
+        }
+        .nav-btn:hover { background: #555; }
+        .nav-btn:disabled { 
+            background: #999; 
+            cursor: not-allowed; 
+        }
+        
+        /* Screen Indicator */
+        .screen-indicator { 
+            position: fixed; 
+            top: 20px; 
+            left: 20px; 
+            background: rgba(0,0,0,0.8); 
+            color: white; 
+            padding: 6px 10px; 
+            border-radius: 4px; 
+            font-size: 12px; 
+            z-index: 1000;
+        }
+
+        /* Autocomplete and Chips Styling */
+        .autocomplete-container { 
+            position: relative; 
+            margin-bottom: 8px;
+        }
+        .autocomplete-input { 
+            width: 100%; 
+            padding: 8px 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 14px; 
+            background: white;
+        }
+        .autocomplete-input:focus { 
+            outline: none; 
+            border-color: #4a90e2;
+        }
+        .autocomplete-dropdown { 
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+            right: 0; 
+            background: white; 
+            border: 1px solid #ddd; 
+            border-top: none; 
+            border-radius: 0 0 4px 4px; 
+            max-height: 200px; 
+            overflow-y: auto; 
+            z-index: 1000; 
+            display: none;
+        }
+        .autocomplete-dropdown.show { 
+            display: block;
+        }
+        .autocomplete-option { 
+            padding: 8px 12px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .autocomplete-option:hover { 
+            background: #f8f9fa;
+        }
+        .autocomplete-option:last-child { 
+            border-bottom: none;
+        }
+        .selected-chips { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 6px; 
+            margin-top: 8px;
+        }
+        .chip { 
+            background: #e3f2fd; 
+            color: #1976d2; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-size: 12px; 
+            display: flex; 
+            align-items: center; 
+            gap: 4px;
+        }
+        .chip-remove { 
+            cursor: pointer; 
+            font-weight: bold; 
+            padding: 0 2px;
+        }
+        .chip-remove:hover { 
+            background: rgba(0,0,0,0.1); 
+            border-radius: 2px;
+        }
+        .browser-container { 
+            display: flex; 
+            flex: 1; 
+            overflow: hidden;
+        }
+        .browser-sidebar { 
+            width: 300px; 
+            min-width: 300px; 
+            background: white; 
+            border-right: 1px solid #ddd; 
+            padding: 20px; 
+            overflow-y: auto;
+        }
+        .browser-content { 
+            flex: 1; 
+            background: #f5f5f5; 
+            display: flex; 
+            flex-direction: column;
+        }
+        
+        /* Sidebar Filters */
+        .filter-section { 
+            margin-bottom: 24px; 
+        }
+        .filter-section h3 { 
+            color: #333; 
+            font-size: 14px; 
+            font-weight: 600; 
+            margin-bottom: 12px; 
+            text-transform: uppercase;
+        }
+        .search-input { 
+            width: 100%; 
+            padding: 8px 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 14px;
+        }
+        .filter-checkbox { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-size: 14px; 
+            color: #333; 
+            cursor: pointer;
+        }
+        .filter-checkbox input { 
+            margin-right: 8px; 
+        }
+        
+        /* Grouping Controls */
+        .grouping-controls { 
+            background: white; 
+            padding: 16px 20px; 
+            border-bottom: 1px solid #ddd; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .grouping-section, .sorting-section { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+        }
+        .grouping-section span, .sorting-section span { 
+            color: #666; 
+            font-size: 14px; 
+            font-weight: 500;
+        }
+        .group-btn, .sort-btn { 
+            background: #f8f9fa; 
+            border: 1px solid #ddd; 
+            padding: 6px 12px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 14px;
+        }
+        .group-btn.active, .sort-btn.active { 
+            background: #4a90e2; 
+            color: white; 
+            border-color: #4a90e2;
+        }
+        .group-btn:hover:not(.active), .sort-btn:hover:not(.active) { 
+            background: #e9ecef; 
+        }
+        
+        /* Content Cards Area */
+        .content-cards-area { 
+            flex: 1; 
+            padding: 20px; 
+            overflow-y: auto;
+        }
+        .content-group { 
+            margin-bottom: 32px;
+        }
+        .group-title { 
+            color: #333; 
+            font-size: 18px; 
+            font-weight: 600; 
+            margin-bottom: 16px; 
+            padding-bottom: 8px; 
+            border-bottom: 2px solid #4a90e2;
+        }
+        .content-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 16px;
+        }
+        
+        /* Content Cards */
+        .content-card { 
+            background: white; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            padding: 16px; 
+            display: flex; 
+            flex-direction: column;
+        }
+        .content-card:hover { 
+            background: #fafafa; 
+        }
+        .content-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 12px;
+        }
+        .content-type-badge { 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-size: 12px; 
+            font-weight: 600; 
+            text-transform: uppercase;
+        }
+        .content-type-badge.index { 
+            background: #e3f2fd; 
+            color: #1976d2;
+        }
+        .content-type-badge.scenario { 
+            background: #f3e5f5; 
+            color: #7b1fa2;
+        }
+        .content-type-badge.trend { 
+            background: #e8f5e8; 
+            color: #388e3c;
+        }
+        .content-type-badge.participatory { 
+            background: #fff3e0; 
+            color: #f57c00;
+        }
+        .content-source { 
+            font-size: 12px; 
+            color: #666; 
+            background: #f5f5f5; 
+            padding: 2px 6px; 
+            border-radius: 3px;
+        }
+        .content-card h3 { 
+            color: #333; 
+            font-size: 16px; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            line-height: 1.3;
+        }
+        .content-card p { 
+            color: #666; 
+            font-size: 14px; 
+            line-height: 1.4; 
+            margin-bottom: 12px; 
+            flex-grow: 1;
+        }
+        .content-meta { 
+            margin-bottom: 12px;
+        }
+        .content-tags { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 6px; 
+            margin-bottom: 8px;
+        }
+        .tag { 
+            background: #f0f0f0; 
+            color: #666; 
+            padding: 2px 6px; 
+            border-radius: 3px; 
+            font-size: 11px;
+        }
+        .content-info { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 12px; 
+            color: #999;
+        }
+        .content-actions { 
+            display: flex; 
+            gap: 8px;
+        }
+        .content-actions .btn-primary { 
+            flex: 1; 
+            padding: 8px 16px; 
+            font-size: 14px;
+        }
+        .content-actions .btn-secondary { 
+            flex: 1; 
+            padding: 8px 16px; 
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .action-cards { 
+                grid-template-columns: 1fr; 
+                gap: 16px;
+            }
+            .projects-grid { 
+                grid-template-columns: 1fr;
+            }
+            .projects-header { 
+                flex-direction: column; 
+                align-items: stretch; 
+                gap: 12px;
+            }
+            .project-toolbar { 
+                flex-direction: column; 
+                align-items: stretch; 
+                gap: 12px;
+            }
+            .home-content { 
+                padding: 20px;
+            }
+            .empty-state { 
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Screen Indicator -->
+    <div class="screen-indicator" id="screenIndicator">Login</div>
+    
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button class="nav-btn" onclick="previousScreen()" id="prevBtn" disabled>← Prev</button>
+        <button class="nav-btn" onclick="nextScreen()" id="nextBtn">Next →</button>
+        <button class="nav-btn" onclick="resetFlow()" style="background: #dc3545;">Reset</button>
+    </div>
+
+    <!-- Login Screen -->
+    <div class="screen active" id="screen1">
+        <div class="login-screen">
+            <div class="login-card">
+                <h1>Stratoview</h1>
+                <p>Strategic intelligence platform</p>
+                <form>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password">
+                    </div>
+                    <button type="button" class="btn-primary" onclick="nextScreen()">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Dashboard -->
+    <div class="screen" id="screen2">
+        <div class="home-screen">
+            <div class="header">
+                <div class="logo">Stratoview</div>
+                <div class="user-menu">
+                    <span>Maria Rossi</span>
+                    <div class="icon-small"></div>
+                </div>
+            </div>
+            <div class="home-content">
+                <h1>Welcome back, Maria</h1>
+                <p>Continue your strategic analysis or explore new intelligence content to enhance your foresight capabilities.</p>
+                <div class="action-cards">
+                    <div class="action-card" onclick="goToScreen(3)">
+                        <div class="icon">■</div>
+                        <h3>My Projects</h3>
+                        <p>Access and manage your existing strategic analysis projects</p>
+                    </div>
+                    <div class="action-card" onclick="goToScreen(5)">
+                        <div class="icon">●</div>
+                        <h3>Browse Content</h3>
+                        <p>Discover indexes, scenarios, and trends from our intelligence repository</p>
+                    </div>
+                    <div class="action-card" onclick="goToScreen(6)">
+                        <div class="icon">▲</div>
+                        <h3>Create Content</h3>
+                        <p>Build your own scenarios, trend radars, and participatory data visualizations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects List -->
+    <div class="screen" id="screen3">
+        <div class="projects-screen">
+            <div class="header">
+                <div class="logo">Stratoview</div>
+                <div class="user-menu">
+                    <span>Maria Rossi</span>
+                    <div class="icon-small"></div>
+                </div>
+            </div>
+            <div class="projects-header">
+                <h1>My Projects</h1>
+                <button class="btn-secondary" onclick="goToScreen(2)">← Back to Home</button>
+            </div>
+            <div class="projects-content">
+                <div class="projects-grid">
+                    <div class="new-project-card" onclick="goToScreen(4)">
+                        <div class="icon">+</div>
+                        <h3>Create New Project</h3>
+                        <p>Start a new strategic analysis workspace</p>
+                    </div>
+                    <div class="project-card" onclick="goToScreen(4)">
+                        <h3>Lombardia Climate Impact 2025</h3>
+                        <p>Analysis of climate change impacts on regional infrastructure and population</p>
+                        <div class="project-meta">
+                            <span>3 ContentBlocks</span>
+                            <span>Last edited: 2 days ago</span>
+                        </div>
+                    </div>
+                    <div class="project-card" onclick="goToScreen(4)">
+                        <h3>Digital Transformation Scenarios</h3>
+                        <p>Strategic scenarios for digital evolution in public administration</p>
+                        <div class="project-meta">
+                            <span>2 ContentBlocks</span>
+                            <span>Last edited: 1 week ago</span>
+                        </div>
+                    </div>
+                    <div class="project-card" onclick="goToScreen(4)">
+                        <h3>Urban Mobility Trends</h3>
+                        <p>Trend analysis for sustainable urban transportation solutions</p>
+                        <div class="project-meta">
+                            <span>4 ContentBlocks</span>
+                            <span>Last edited: 3 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Container (Empty State) -->
+    <div class="screen" id="screen4">
+        <div class="project-container-screen">
+            <div class="header">
+                <div class="logo">Stratoview</div>
+                <div class="user-menu">
+                    <span>Maria Rossi</span>
+                    <div class="icon-small"></div>
+                </div>
+            </div>
+            <div class="project-toolbar">
+                <div class="project-info">
+                    <h2>New Project</h2>
+                    <p>Empty workspace ready for content</p>
+                </div>
+                <div class="layout-controls">
+                    <button class="layout-btn active" onclick="setLayout('single')">Single</button>
+                    <button class="layout-btn" onclick="setLayout('grid')">Grid</button>
+                    <button class="layout-btn" onclick="setLayout('columns')">Columns</button>
+                </div>
+            </div>
+            <div class="project-workspace">
+                <div class="empty-state">
+                    <div class="icon">■</div>
+                    <h2>Ready to Begin Analysis</h2>
+                    <p>Your project workspace is ready. Add content from our intelligence repository to start building your strategic analysis. ContentBlocks will appear here once you add your first piece of content.</p>
+                    <button class="btn-primary" onclick="goToScreen(5)">Browse Content</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Browser (Phase 2) -->
+    <div class="screen" id="screen5">
+        <div class="projects-screen">
+            <div class="header">
+                <div class="logo">Stratoview</div>
+                <div class="user-menu">
+                    <span>Maria Rossi</span>
+                    <div class="icon-small"></div>
+                </div>
+            </div>
+            <div class="projects-header">
+                <h1>Content Browser</h1>
+                <button class="btn-secondary" onclick="goToScreen(4)">← Back to Project</button>
+            </div>
+            <div class="browser-container">
+                <!-- Left Sidebar - Filters -->
+                <div class="browser-sidebar">
+                    <div class="filter-section">
+                        <h3>Search</h3>
+                        <input type="text" class="search-input" placeholder="Search content...">
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3>Content Type</h3>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Index
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Scenario
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Trend Radar
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Participatory Data
+                        </label>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3>Intelligence Area</h3>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Tourism Resilience
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Territorial Innovation
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> City Housing
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Social Resilience
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Climate Risks
+                        </label>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3>Topic Area</h3>
+                        <div class="autocomplete-container">
+                            <input type="text" class="autocomplete-input" placeholder="Search topic areas..." onclick="toggleTopicDropdown()" onkeyup="filterTopicOptions()">
+                            <div class="autocomplete-dropdown" id="topicDropdown">
+                                <div class="autocomplete-option" onclick="selectTopic('Population and Demographic Change')">Population and Demographic Change</div>
+                                <div class="autocomplete-option" onclick="selectTopic('Health')">Health</div>
+                                <div class="autocomplete-option" onclick="selectTopic('Energy and Environment')">Energy and Environment</div>
+                                <div class="autocomplete-option" onclick="selectTopic('Food and Agriculture')">Food and Agriculture</div>
+                                <div class="autocomplete-option" onclick="selectTopic('Poverty and Economic Development')">Poverty and Economic Development</div>
+                                <div class="autocomplete-option" onclick="selectTopic('Education and Knowledge')">Education and Knowledge</div>
+                                <div class="autocomplete-option" onclick="selectTopic('Innovation and Technological Change')">Innovation and Technological Change</div>
+                                <div class="autocomplete-option" onclick="selectTopic('Living Conditions, Community and Wellbeing')">Living Conditions, Community and Wellbeing</div>
+                                <div class="autocomplete-option" onclick="selectTopic('Human Rights and Democracy')">Human Rights and Democracy</div>
+                                <div class="autocomplete-option" onclick="selectTopic('Violence and War')">Violence and War</div>
+                            </div>
+                        </div>
+                        <div class="selected-chips" id="topicChips">
+                            <span class="chip">Health <span class="chip-remove" onclick="removeTopic('Health')">×</span></span>
+                            <span class="chip">Energy and Environment <span class="chip-remove" onclick="removeTopic('Energy and Environment')">×</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3>Tags</h3>
+                        <div class="autocomplete-container">
+                            <input type="text" class="autocomplete-input" placeholder="Search tags..." onclick="toggleTagsDropdown()" onkeyup="filterTagOptions()">
+                            <div class="autocomplete-dropdown" id="tagsDropdown">
+                                <div class="autocomplete-option" onclick="selectTag('tourism')">tourism</div>
+                                <div class="autocomplete-option" onclick="selectTag('vulnerability')">vulnerability</div>
+                                <div class="autocomplete-option" onclick="selectTag('economic-impact')">economic-impact</div>
+                                <div class="autocomplete-option" onclick="selectTag('covid-recovery')">covid-recovery</div>
+                                <div class="autocomplete-option" onclick="selectTag('infrastructure')">infrastructure</div>
+                                <div class="autocomplete-option" onclick="selectTag('interdependency')">interdependency</div>
+                                <div class="autocomplete-option" onclick="selectTag('resilience')">resilience</div>
+                                <div class="autocomplete-option" onclick="selectTag('climate-tech')">climate-tech</div>
+                                <div class="autocomplete-option" onclick="selectTag('adaptation')">adaptation</div>
+                                <div class="autocomplete-option" onclick="selectTag('innovation')">innovation</div>
+                                <div class="autocomplete-option" onclick="selectTag('survey')">survey</div>
+                                <div class="autocomplete-option" onclick="selectTag('perception')">perception</div>
+                                <div class="autocomplete-option" onclick="selectTag('awareness')">awareness</div>
+                                <div class="autocomplete-option" onclick="selectTag('transformation')">transformation</div>
+                                <div class="autocomplete-option" onclick="selectTag('sustainability')">sustainability</div>
+                            </div>
+                        </div>
+                        <div class="selected-chips" id="tagsChips">
+                            <span class="chip">infrastructure <span class="chip-remove" onclick="removeTag('infrastructure')">×</span></span>
+                            <span class="chip">resilience <span class="chip-remove" onclick="removeTag('resilience')">×</span></span>
+                            <span class="chip">adaptation <span class="chip-remove" onclick="removeTag('adaptation')">×</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3>Geographic Coverage</h3>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Milano
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Bergamo
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Brescia
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Como
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Varese
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> All Lombardia
+                        </label>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3>Content Visibility</h3>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Public Content
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked> Private Content
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Right Content Area -->
+                <div class="browser-content">
+                    <!-- Grouping Controls -->
+                    <div class="grouping-controls">
+                        <div class="grouping-section">
+                            <span>Group by:</span>
+                            <button class="group-btn active" onclick="setGrouping('intelligence')">Intelligence Area</button>
+                            <button class="group-btn" onclick="setGrouping('topic')">Topic Area</button>
+                            <button class="group-btn" onclick="setGrouping('type')">Content Type</button>
+                            <button class="group-btn" onclick="setGrouping('none')">No Grouping</button>
+                        </div>
+                        <div class="sorting-section">
+                            <span>Sort:</span>
+                            <button class="sort-btn active" onclick="setSorting('asc')">A-Z</button>
+                            <button class="sort-btn" onclick="setSorting('desc')">Z-A</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Cards Area -->
+                    <div class="content-cards-area">
+                        <!-- Intelligence Area Group -->
+                        <div class="content-group">
+                            <h2 class="group-title">Tourism Resilience Intelligence</h2>
+                            <div class="content-grid">
+                                <div class="content-card">
+                                    <div class="content-header">
+                                        <span class="content-type-badge index">Index</span>
+                                        <span class="content-source">Company</span>
+                                    </div>
+                                    <h3>Tourism Flow Vulnerability Index</h3>
+                                    <p>Comprehensive analysis of tourism sector resilience against climate and economic shocks across Lombardia provinces.</p>
+                                    <div class="content-meta">
+                                        <div class="content-tags">
+                                            <span class="tag">tourism</span>
+                                            <span class="tag">vulnerability</span>
+                                            <span class="tag">economic-impact</span>
+                                        </div>
+                                        <div class="content-info">
+                                            <span>Milano, Bergamo</span>
+                                            <span>Updated 3 days ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="content-actions">
+                                        <button class="btn-primary" onclick="addToProject()">Add</button>
+                                        <button class="btn-secondary" onclick="showDetails()">Details</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="content-card">
+                                    <div class="content-header">
+                                        <span class="content-type-badge scenario">Scenario</span>
+                                        <span class="content-source">Company</span>
+                                    </div>
+                                    <h3>Post-COVID Tourism Recovery Scenarios</h3>
+                                    <p>Strategic scenarios exploring different pathways for tourism sector recovery and transformation in the post-pandemic era.</p>
+                                    <div class="content-meta">
+                                        <div class="content-tags">
+                                            <span class="tag">covid-recovery</span>
+                                            <span class="tag">tourism</span>
+                                            <span class="tag">transformation</span>
+                                        </div>
+                                        <div class="content-info">
+                                            <span>All Lombardia</span>
+                                            <span>Updated 1 week ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="content-actions">
+                                        <button class="btn-primary" onclick="addToProject()">Add</button>
+                                        <button class="btn-secondary" onclick="showDetails()">Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Climate Risks Group -->
+                        <div class="content-group">
+                            <h2 class="group-title">Climate Risks Intelligence</h2>
+                            <div class="content-grid">
+                                <div class="content-card">
+                                    <div class="content-header">
+                                        <span class="content-type-badge index">Index</span>
+                                        <span class="content-source">Company</span>
+                                    </div>
+                                    <h3>Critical Infrastructure Interdependency</h3>
+                                    <p>Analysis of infrastructure dependencies and potential failure cascades across the Lombardia region.</p>
+                                    <div class="content-meta">
+                                        <div class="content-tags">
+                                            <span class="tag">infrastructure</span>
+                                            <span class="tag">interdependency</span>
+                                            <span class="tag">resilience</span>
+                                        </div>
+                                        <div class="content-info">
+                                            <span>Milano, Brescia</span>
+                                            <span>Updated 2 days ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="content-actions">
+                                        <button class="btn-primary" onclick="addToProject()">Add</button>
+                                        <button class="btn-secondary" onclick="showDetails()">Details</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="content-card">
+                                    <div class="content-header">
+                                        <span class="content-type-badge trend">Trend Radar</span>
+                                        <span class="content-source">Private</span>
+                                    </div>
+                                    <h3>Climate Adaptation Technologies</h3>
+                                    <p>Emerging technologies and solutions for climate adaptation in urban and rural environments.</p>
+                                    <div class="content-meta">
+                                        <div class="content-tags">
+                                            <span class="tag">climate-tech</span>
+                                            <span class="tag">adaptation</span>
+                                            <span class="tag">innovation</span>
+                                        </div>
+                                        <div class="content-info">
+                                            <span>All Lombardia</span>
+                                            <span>Created by Maria Rossi</span>
+                                        </div>
+                                    </div>
+                                    <div class="content-actions">
+                                        <button class="btn-primary" onclick="addToProject()">Add</button>
+                                        <button class="btn-secondary" onclick="showDetails()">Details</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="content-card">
+                                    <div class="content-header">
+                                        <span class="content-type-badge participatory">Participatory Data</span>
+                                        <span class="content-source">Company</span>
+                                    </div>
+                                    <h3>Climate Risk Perception Survey</h3>
+                                    <p>Public survey results on climate risk awareness and adaptation preferences across different demographic groups.</p>
+                                    <div class="content-meta">
+                                        <div class="content-tags">
+                                            <span class="tag">survey</span>
+                                            <span class="tag">perception</span>
+                                            <span class="tag">awareness</span>
+                                        </div>
+                                        <div class="content-info">
+                                            <span>Milano, Como, Varese</span>
+                                            <span>Updated 5 days ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="content-actions">
+                                        <button class="btn-primary" onclick="addToProject()">Add</button>
+                                        <button class="btn-secondary" onclick="showDetails()">Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Editor (Phase 3) -->
+    <div class="screen" id="screen6">
+        <div class="projects-screen">
+            <div class="header">
+                <div class="logo">Stratoview</div>
+                <div class="user-menu">
+                    <span>Maria Rossi</span>
+                    <div class="icon-small"></div>
+                </div>
+            </div>
+            <div class="projects-header">
+                <h1>Content Editor</h1>
+                <button class="btn-secondary" onclick="goToScreen(5)">← Back to Content Browser</button>
+            </div>
+            <div class="editor-container">
+                <!-- Content Type Selection -->
+                <div class="content-type-selection">
+                    <h3>Select Content Type</h3>
+                    <div class="type-cards">
+                        <div class="type-card active" onclick="selectContentType('scenario')">
+                            <div class="type-icon scenario">S</div>
+                            <h4>Scenario</h4>
+                            <p>Strategic scenarios with probability assessments</p>
+                        </div>
+                        <div class="type-card" onclick="selectContentType('trend')">
+                            <div class="type-icon trend">T</div>
+                            <h4>Trend Radar</h4>
+                            <p>Visual radar representations of emerging trends</p>
+                        </div>
+                        <div class="type-card" onclick="selectContentType('participatory')">
+                            <div class="type-icon participatory">P</div>
+                            <h4>Participatory Data</h4>
+                            <p>Data visualizations from surveys and research</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Editor Form -->
+                <div class="editor-form">
+                    <!-- Common Fields -->
+                    <div class="form-section">
+                        <h3>Basic Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contentTitle">Title *</label>
+                                <input type="text" id="contentTitle" placeholder="Enter content title..." maxlength="100">
+                                <span class="char-counter">0/100</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="shortDescription">Brief Description *</label>
+                                <textarea id="shortDescription" placeholder="Brief description of the content..." maxlength="200" rows="3"></textarea>
+                                <span class="char-counter">0/200</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="longDescription">Extended Description</label>
+                                <textarea id="longDescription" placeholder="Detailed description and context..." rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Specific Fields -->
+                    <div class="form-section" id="specificFields">
+                        <!-- Scenario Fields -->
+                        <div class="scenario-fields content-specific">
+                            <h3>Scenario Details</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="probability">Probability Assessment *</label>
+                                    <select id="probability">
+                                        <option value="">Select probability...</option>
+                                        <option value="very-low">Very Low (0-20%)</option>
+                                        <option value="low">Low (20-40%)</option>
+                                        <option value="medium">Medium (40-60%)</option>
+                                        <option value="high">High (60-80%)</option>
+                                        <option value="very-high">Very High (80-100%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="scenarioBody">Scenario Content *</label>
+                                    <div class="rich-editor">
+                                        <div class="editor-toolbar">
+                                            <button type="button" class="editor-btn" onclick="formatText('bold')">B</button>
+                                            <button type="button" class="editor-btn" onclick="formatText('italic')">I</button>
+                                            <button type="button" class="editor-btn" onclick="formatText('heading')">H</button>
+                                            <button type="button" class="editor-btn" onclick="insertImage()">IMG</button>
+                                        </div>
+                                        <textarea id="scenarioBody" placeholder="Write your scenario content here..." rows="8"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trend Radar Fields (Hidden by default) -->
+                        <div class="trend-fields content-specific" style="display: none;">
+                            <h3>Trend Radar Details</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="timeReference">Time Reference *</label>
+                                    <div class="time-inputs">
+                                        <select id="timeMonth">
+                                            <option value="">Month...</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        <input type="number" id="timeYear" placeholder="Year" min="2020" max="2030">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="radarImage">Radar Image *</label>
+                                    <div class="file-upload">
+                                        <input type="file" id="radarImage" accept="image/*" onchange="handleImageUpload(event)">
+                                        <div class="upload-area">
+                                            <div class="upload-placeholder">
+                                                <div class="upload-icon">□</div>
+                                                <p>Click to upload radar image</p>
+                                                <span>PNG, JPG up to 10MB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Participatory Data Fields (Hidden by default) -->
+                        <div class="participatory-fields content-specific" style="display: none;">
+                            <h3>Participatory Data Details</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="collectionDate">Data Collection Date *</label>
+                                    <input type="date" id="collectionDate">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dataImage">Data Visualization *</label>
+                                    <div class="file-upload">
+                                        <input type="file" id="dataImage" accept="image/*" onchange="handleImageUpload(event)">
+                                        <div class="upload-area">
+                                            <div class="upload-placeholder">
+                                                <div class="upload-icon">□</div>
+                                                <p>Click to upload data visualization</p>
+                                                <span>PNG, JPG up to 10MB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Taxonomy Fields -->
+                    <div class="form-section">
+                        <h3>Classification</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="intelligenceArea">Intelligence Area *</label>
+                                <select id="intelligenceArea">
+                                    <option value="">Select intelligence area...</option>
+                                    <option value="tourism">Tourism Resilience</option>
+                                    <option value="territorial">Territorial Innovation</option>
+                                    <option value="housing">City Housing</option>
+                                    <option value="social">Social Resilience</option>
+                                    <option value="climate">Climate Risks</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Topic Area</label>
+                                <div class="autocomplete-container">
+                                    <input type="text" class="autocomplete-input" placeholder="Search topic areas..." onclick="toggleEditorTopicDropdown()" onkeyup="filterEditorTopicOptions()">
+                                    <div class="autocomplete-dropdown" id="editorTopicDropdown">
+                                        <div class="autocomplete-option" onclick="selectEditorTopic('Population and Demographic Change')">Population and Demographic Change</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTopic('Health')">Health</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTopic('Energy and Environment')">Energy and Environment</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTopic('Food and Agriculture')">Food and Agriculture</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTopic('Innovation and Technological Change')">Innovation and Technological Change</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTopic('Living Conditions, Community and Wellbeing')">Living Conditions, Community and Wellbeing</div>
+                                    </div>
+                                </div>
+                                <div class="selected-chips" id="editorTopicChips"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Tags (max 5)</label>
+                                <div class="autocomplete-container">
+                                    <input type="text" class="autocomplete-input" placeholder="Search tags..." onclick="toggleEditorTagsDropdown()" onkeyup="filterEditorTagOptions()">
+                                    <div class="autocomplete-dropdown" id="editorTagsDropdown">
+                                        <div class="autocomplete-option" onclick="selectEditorTag('tourism')">tourism</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTag('vulnerability')">vulnerability</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTag('infrastructure')">infrastructure</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTag('resilience')">resilience</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTag('innovation')">innovation</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTag('sustainability')">sustainability</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTag('transformation')">transformation</div>
+                                        <div class="autocomplete-option" onclick="selectEditorTag('adaptation')">adaptation</div>
+                                    </div>
+                                </div>
+                                <div class="selected-chips" id="editorTagsChips"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Geographic Coverage *</label>
+                                <div class="checkbox-group">
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="geography" value="milano"> Milano
+                                    </label>
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="geography" value="bergamo"> Bergamo
+                                    </label>
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="geography" value="brescia"> Brescia
+                                    </label>
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="geography" value="como"> Como
+                                    </label>
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="geography" value="varese"> Varese
+                                    </label>
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="geography" value="all"> All Lombardia
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="previewContent()">Preview</button>
+                        <button type="button" class="btn-secondary" onclick="saveDraft()">Save as Draft</button>
+                        <button type="button" class="btn-primary" onclick="saveAndAddToProject()">Save & Add to Project</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentScreen = 1;
+        const totalScreens = 6;
+        const screenNames = ['Login', 'Home Dashboard', 'Projects List', 'Project Container', 'Content Browser', 'Content Editor'];
+
+        function showScreen(screenNumber) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show target screen
+            document.getElementById(`screen${screenNumber}`).classList.add('active');
+            
+            // Update indicator
+            document.getElementById('screenIndicator').textContent = screenNames[screenNumber - 1];
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = screenNumber === 1;
+            document.getElementById('nextBtn').disabled = screenNumber === totalScreens;
+            
+            currentScreen = screenNumber;
+        }
+
+        function nextScreen() {
+            if (currentScreen < totalScreens) {
+                showScreen(currentScreen + 1);
+            }
+        }
+
+        function previousScreen() {
+            if (currentScreen > 1) {
+                showScreen(currentScreen - 1);
+            }
+        }
+
+        function goToScreen(screenNumber) {
+            showScreen(screenNumber);
+        }
+
+        function resetFlow() {
+            showScreen(1);
+        }
+
+        function setLayout(layoutType) {
+            // Update layout button states
+            document.querySelectorAll('.layout-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Find and activate the clicked button
+            document.querySelectorAll('.layout-btn').forEach(btn => {
+                if (btn.textContent.toLowerCase() === layoutType) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            console.log(`Layout changed to: ${layoutType}`);
+        }
+
+        function setGrouping(groupType) {
+            // Update grouping button states
+            document.querySelectorAll('.group-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Find and activate the clicked button
+            document.querySelectorAll('.group-btn').forEach(btn => {
+                if ((groupType === 'intelligence' && btn.textContent === 'Intelligence Area') ||
+                    (groupType === 'topic' && btn.textContent === 'Topic Area') ||
+                    (groupType === 'type' && btn.textContent === 'Content Type') ||
+                    (groupType === 'none' && btn.textContent === 'No Grouping')) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            console.log(`Grouping changed to: ${groupType}`);
+        }
+
+        function setSorting(sortType) {
+            // Update sorting button states
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Find and activate the clicked button
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                if ((sortType === 'asc' && btn.textContent === 'A-Z') ||
+                    (sortType === 'desc' && btn.textContent === 'Z-A')) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            console.log(`Sorting changed to: ${sortType}`);
+        }
+
+        function addToProject() {
+            alert('Content added to project! (In real app, this would add the content to current project)');
+        }
+
+        function showDetails() {
+            alert('Opening content details... (Phase 3 will include detailed content view)');
+        }
+
+        // Autocomplete functionality
+        function toggleTopicDropdown() {
+            const dropdown = document.getElementById('topicDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function toggleTagsDropdown() {
+            const dropdown = document.getElementById('tagsDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function filterTopicOptions() {
+            const input = event.target;
+            const filter = input.value.toLowerCase();
+            const dropdown = document.getElementById('topicDropdown');
+            const options = dropdown.getElementsByClassName('autocomplete-option');
+            
+            dropdown.classList.add('show');
+            
+            for (let option of options) {
+                const text = option.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+        }
+
+        function filterTagOptions() {
+            const input = event.target;
+            const filter = input.value.toLowerCase();
+            const dropdown = document.getElementById('tagsDropdown');
+            const options = dropdown.getElementsByClassName('autocomplete-option');
+            
+            dropdown.classList.add('show');
+            
+            for (let option of options) {
+                const text = option.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+        }
+
+        function selectTopic(topic) {
+            const chipsContainer = document.getElementById('topicChips');
+            const input = document.querySelector('#topicDropdown').previousElementSibling;
+            
+            // Check if already selected
+            const existingChips = chipsContainer.querySelectorAll('.chip');
+            for (let chip of existingChips) {
+                if (chip.textContent.includes(topic)) {
+                    return; // Already selected
+                }
+            }
+            
+            // Add new chip
+            const chipElement = document.createElement('span');
+            chipElement.className = 'chip';
+            chipElement.innerHTML = `${topic} <span class="chip-remove" onclick="removeTopic('${topic}')">×</span>`;
+            chipsContainer.appendChild(chipElement);
+            
+            // Clear input and hide dropdown
+            input.value = '';
+            document.getElementById('topicDropdown').classList.remove('show');
+        }
+
+        function selectTag(tag) {
+            const chipsContainer = document.getElementById('tagsChips');
+            const input = document.querySelector('#tagsDropdown').previousElementSibling;
+            
+            // Check if already selected
+            const existingChips = chipsContainer.querySelectorAll('.chip');
+            for (let chip of existingChips) {
+                if (chip.textContent.includes(tag)) {
+                    return; // Already selected
+                }
+            }
+            
+            // Add new chip
+            const chipElement = document.createElement('span');
+            chipElement.className = 'chip';
+            chipElement.innerHTML = `${tag} <span class="chip-remove" onclick="removeTag('${tag}')">×</span>`;
+            chipsContainer.appendChild(chipElement);
+            
+            // Clear input and hide dropdown
+            input.value = '';
+            document.getElementById('tagsDropdown').classList.remove('show');
+        }
+
+        function removeTopic(topic) {
+            const chipsContainer = document.getElementById('topicChips');
+            const chips = chipsContainer.querySelectorAll('.chip');
+            for (let chip of chips) {
+                if (chip.textContent.includes(topic)) {
+                    chip.remove();
+                    break;
+                }
+            }
+        }
+
+        function removeTag(tag) {
+            const chipsContainer = document.getElementById('tagsChips');
+            const chips = chipsContainer.querySelectorAll('.chip');
+            for (let chip of chips) {
+                if (chip.textContent.includes(tag)) {
+                    chip.remove();
+                    break;
+                }
+            }
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.autocomplete-container')) {
+                document.getElementById('topicDropdown').classList.remove('show');
+                document.getElementById('tagsDropdown').classList.remove('show');
+                // Editor dropdowns
+                if (document.getElementById('editorTopicDropdown')) {
+                    document.getElementById('editorTopicDropdown').classList.remove('show');
+                }
+                if (document.getElementById('editorTagsDropdown')) {
+                    document.getElementById('editorTagsDropdown').classList.remove('show');
+                }
+            }
+        });
+
+        // Content Editor Functions
+        function selectContentType(type) {
+            // Update type card selection
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.target.closest('.type-card').classList.add('active');
+            
+            // Show/hide specific fields
+            document.querySelectorAll('.content-specific').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            if (type === 'scenario') {
+                document.querySelector('.scenario-fields').style.display = 'block';
+            } else if (type === 'trend') {
+                document.querySelector('.trend-fields').style.display = 'block';
+            } else if (type === 'participatory') {
+                document.querySelector('.participatory-fields').style.display = 'block';
+            }
+        }
+
+        // Character counting
+        document.addEventListener('input', function(event) {
+            if (event.target.matches('#contentTitle')) {
+                const counter = event.target.nextElementSibling;
+                counter.textContent = `${event.target.value.length}/100`;
+            }
+            if (event.target.matches('#shortDescription')) {
+                const counter = event.target.nextElementSibling;
+                counter.textContent = `${event.target.value.length}/200`;
+            }
+        });
+
+        // Editor autocomplete functions
+        function toggleEditorTopicDropdown() {
+            const dropdown = document.getElementById('editorTopicDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function toggleEditorTagsDropdown() {
+            const dropdown = document.getElementById('editorTagsDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function filterEditorTopicOptions() {
+            const input = event.target;
+            const filter = input.value.toLowerCase();
+            const dropdown = document.getElementById('editorTopicDropdown');
+            const options = dropdown.getElementsByClassName('autocomplete-option');
+            
+            dropdown.classList.add('show');
+            
+            for (let option of options) {
+                const text = option.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+        }
+
+        function filterEditorTagOptions() {
+            const input = event.target;
+            const filter = input.value.toLowerCase();
+            const dropdown = document.getElementById('editorTagsDropdown');
+            const options = dropdown.getElementsByClassName('autocomplete-option');
+            
+            dropdown.classList.add('show');
+            
+            for (let option of options) {
+                const text = option.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+        }
+
+        function selectEditorTopic(topic) {
+            const chipsContainer = document.getElementById('editorTopicChips');
+            const input = document.querySelector('#editorTopicDropdown').previousElementSibling;
+            
+            // Check if already selected
+            const existingChips = chipsContainer.querySelectorAll('.chip');
+            for (let chip of existingChips) {
+                if (chip.textContent.includes(topic)) {
+                    return;
+                }
+            }
+            
+            const chipElement = document.createElement('span');
+            chipElement.className = 'chip';
+            chipElement.innerHTML = `${topic} <span class="chip-remove" onclick="removeEditorTopic('${topic}')">×</span>`;
+            chipsContainer.appendChild(chipElement);
+            
+            input.value = '';
+            document.getElementById('editorTopicDropdown').classList.remove('show');
+        }
+
+        function selectEditorTag(tag) {
+            const chipsContainer = document.getElementById('editorTagsChips');
+            const input = document.querySelector('#editorTagsDropdown').previousElementSibling;
+            
+            // Check tag limit
+            const existingChips = chipsContainer.querySelectorAll('.chip');
+            if (existingChips.length >= 5) {
+                alert('Maximum 5 tags allowed');
+                return;
+            }
+            
+            // Check if already selected
+            for (let chip of existingChips) {
+                if (chip.textContent.includes(tag)) {
+                    return;
+                }
+            }
+            
+            const chipElement = document.createElement('span');
+            chipElement.className = 'chip';
+            chipElement.innerHTML = `${tag} <span class="chip-remove" onclick="removeEditorTag('${tag}')">×</span>`;
+            chipsContainer.appendChild(chipElement);
+            
+            input.value = '';
+            document.getElementById('editorTagsDropdown').classList.remove('show');
+        }
+
+        function removeEditorTopic(topic) {
+            const chipsContainer = document.getElementById('editorTopicChips');
+            const chips = chipsContainer.querySelectorAll('.chip');
+            for (let chip of chips) {
+                if (chip.textContent.includes(topic)) {
+                    chip.remove();
+                    break;
+                }
+            }
+        }
+
+        function removeEditorTag(tag) {
+            const chipsContainer = document.getElementById('editorTagsChips');
+            const chips = chipsContainer.querySelectorAll('.chip');
+            for (let chip of chips) {
+                if (chip.textContent.includes(tag)) {
+                    chip.remove();
+                    break;
+                }
+            }
+        }
+
+        // Rich text editor functions
+        function formatText(command) {
+            alert(`Format ${command} selected (Rich text editor functionality would be implemented here)`);
+        }
+
+        function insertImage() {
+            alert('Insert image dialog would open here');
+        }
+
+        // File upload handler
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const uploadArea = event.target.nextElementSibling;
+                uploadArea.innerHTML = `
+                    <div class="upload-success">
+                        <div class="upload-icon">✓</div>
+                        <p>File uploaded: ${file.name}</p>
+                        <span>Click to change file</span>
+                    </div>
+                `;
+                uploadArea.style.borderColor = '#388e3c';
+                uploadArea.style.background = '#f8fff8';
+            }
+        }
+
+        // Make upload areas clickable
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.upload-area')) {
+                const uploadArea = event.target.closest('.upload-area');
+                const fileInput = uploadArea.previousElementSibling;
+                fileInput.click();
+            }
+        });
+
+        // Form actions
+        function previewContent() {
+            alert('Preview functionality would show content preview here');
+        }
+
+        function saveDraft() {
+            alert('Content saved as draft (Private content)');
+        }
+
+        function saveAndAddToProject() {
+            alert('Content saved and added to current project!');
+        }
+
+        // Initialize
+        showScreen(1);
+    </script>
+</body>
+</html>
