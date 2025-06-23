@@ -4,7 +4,7 @@
 
 - [📱 Interactive Prototype](https://ahuhmm.github.io/stratoview-lombardia-documentazione/mockup/interactive-prototype.html)
 - [🏗️ Complete Architecture](https://ahuhmm.github.io/stratoview-lombardia-documentazione/architecture/complete-architecture.md)
-- [🏷️ Taxonomy Store](https://ahuhmm.github.io/stratoview-lombardia-documentazione/taxonomy/taxonomy-store.json)
+- [🏷️ Taxonomy Store](https://github.com/AhUhmm/stratoview-lombardia-documentazione/blob/main/taxonomy/taxonomy-store.json)
 
 ## Implementation Status
 
