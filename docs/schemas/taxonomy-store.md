@@ -1,5 +1,5 @@
 ---
-title: MongoDB Schemas
+title: Taxonomy Store
 sidebar_position: 1
 ---
 

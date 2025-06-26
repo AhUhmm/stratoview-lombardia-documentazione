@@ -71,8 +71,8 @@ const config = {
           label: "Documentation",
         },
         {
-          href: "/mockup",
-          label: "🚀 Interactive Demo",
+          href: "/prototype",
+          label: "🚀 Mockup Demo",
           position: "left",
         },
         {
