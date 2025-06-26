@@ -591,7 +591,7 @@ note for AccessApprovalWorkflow "Privacy Protection:
 
 [Spiegazione concisa del sistema]
 
-_For detailed permission specifications and conditional access workflows, see [user-roles-documentation.md](user-roles-documentation.md)_
+_For detailed permission specifications and conditional access workflows, see [user-roles-documentation.md](./user-roles)_
 
 ## System Architecture Diagram
 
