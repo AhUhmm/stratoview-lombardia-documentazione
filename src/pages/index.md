@@ -1,42 +1,20 @@
----
-title: Welcome to Stratoview Documentation
-sidebar_position: 1
-slug: /
----
+# Stratoview Lombardia Documentation
 
-# Stratoview Whitelabel Lombardia Documentation
+## Quick Access
 
-Welcome to the comprehensive technical documentation for the Stratoview platform.
+- [📱 Interactive Prototype](./mockup)
+- [🏗️ Complete Architecture](./architecture/complete-architecture)
+- [🏷️ Taxonomy Store](/schemas/taxonomy-store.json)
 
-## 📚 Documentation Structure
+## Implementation Status
 
-### 🏗️ Architecture
+- ✅ Architecture: Complete v0.6
+- ✅ Taxonomy: Database-agnostic schema ready
+- ⏳ Database Stack: **To be determined**
+- ⏳ Frontend Stack: **To be determined**
 
-- [Complete Architecture](./architecture/complete-architecture) - System overview and diagrams
-- [User Roles](./architecture/user-roles-documentation) - Permission system
-- [Validation Requirements](./architecture/validation-requirements) - Form validation specs
+## For Developers
 
-### 🗄️ Database Schemas
-
-- [MongoDB Schemas](./schemas/mongodb-schemas) - NoSQL database structure
-- [Django Models](./schemas/django-models) - Python ORM models
-
-### 🔌 API Documentation
-
-- [API Reference](./api/api-reference) - Complete API documentation
-- [Authentication](./api/authentication) - Auth flows and security
-- [Endpoints](./api/endpoints) - Detailed endpoint documentation
-
-### 🛠️ Implementation
-
-- [Component Architecture](./implementation/component-architecture) - Frontend components
-- [Data Flow](./implementation/data-flow) - Data pipeline documentation
-
-## 🚀 Quick Links
-
-- [Mockup](/prototype) - Try the live demo
-- [Download Schemas](/schemas) - Get database schemas
-
-## 🎯 Getting Started
-
-Start with the [Complete Architecture](./architecture/complete-architecture) to understand the system overview.
+- [Implementation Guide](./implementation/implementation-guide)
+- [Database Schemas](./schemas/mongodb-schemas)
+- [API Specifications](./api/api-reference) _(coming soon)_

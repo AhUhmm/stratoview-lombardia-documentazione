@@ -1,4 +1,4 @@
-# Complete Architecture Documentation
+# Stratoview Whitelabel Lombardia - Complete Architecture Documentation
 
 **CONVERSATION LABEL:** Stratoview Whitelabel Lombardia Architecture Analysis  
 **DOCUMENT VERSION:** 0.6  
