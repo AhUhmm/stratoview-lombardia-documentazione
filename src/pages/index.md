@@ -15,6 +15,6 @@
 
 ## For Developers
 
-- [Implementation Guide](./implementation/implementation)
-- [Database Schemas](./schemas)
-- [API Specifications](./api) _(coming soon)_
+- [Implementation Guide](./implementation/implementation-guide)
+- [Database Schemas](./schemas/mongodb-schemas)
+- [API Specifications](./api/api-reference) _(coming soon)_
