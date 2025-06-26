@@ -1,4 +1,4 @@
-# Implementation Guide - Stratoview Lombardia
+# Implementation Guide
 
 ## Database Implementation Status
 

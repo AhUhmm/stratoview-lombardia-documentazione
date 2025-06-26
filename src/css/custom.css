@@ -1,0 +1,15 @@
+:root {
+  --ifm-color-primary: #4a90e2;
+  --ifm-code-font-size: 95%;
+}
+
+/* Mermaid diagram container */
+.docusaurus-mermaid-container {
+  text-align: center;
+  margin: 2em 0;
+}
+
+/* Zoom controls for diagrams */
+.diagram-controls {
+  margin: 1em 0;
+}

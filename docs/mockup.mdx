@@ -1,0 +1,53 @@
+---
+title: Interactive Prototype
+sidebar_position: 2
+---
+
+import BrowserOnly from "@docusaurus/BrowserOnly";
+
+# Stratoview Interactive Prototype
+
+Experience the complete user flow of Stratoview through our interactive prototype.
+Navigate through all screens using the navigation buttons at the bottom right.
+
+<BrowserOnly>
+  {() => (
+    <div style={{ margin: "20px 0" }}>
+      <iframe
+        src="/mockup/interactive-prototype.html"
+        style={{
+          width: "100%",
+          height: "800px",
+          border: "1px solid #ddd",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+        }}
+        title="Stratoview Interactive Prototype"
+      />
+    </div>
+  )}
+</BrowserOnly>
+
+## Prototype Features
+
+- ✅ Complete user flow from login to content creation
+- ✅ Interactive ContentBlock management
+- ✅ Dual content discovery system (Screens 5 & 7)
+- ✅ Responsive design (resize to test mobile view)
+
+## Navigation Guide
+
+Use the **navigation buttons** at the bottom right:
+
+- **Next/Prev**: Navigate through screens sequentially
+- **Reset**: Return to login screen
+- **Screen indicator** (top left): Shows current screen
+
+### Key Screens:
+
+1. **Login** - Authentication entry point
+2. **Home Dashboard** - Main navigation hub
+3. **Projects List** - Project management
+4. **Project Container** - Empty/Active states
+5. **Content Browser** - Browse and add content
+6. **Content Editor** - Create new content
