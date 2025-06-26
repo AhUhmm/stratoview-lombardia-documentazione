@@ -43,12 +43,12 @@ const config = {
     ],
   ],
 
-  plugins: [require.resolve("docusaurus-plugin-image-zoom")],
+  plugins: ["@r74tech/docusaurus-plugin-panzoom"],
 
   themeConfig: {
     // Mermaid con zoom/pan
     mermaid: {
-      theme: { light: "default", dark: "dark" },
+      theme: { light: "light", dark: "default" },
       options: {
         maxTextSize: 100000, // Per diagrammi grandi
       },
